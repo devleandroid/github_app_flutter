@@ -22,7 +22,8 @@ class ListContent extends StatelessWidget {
     final List<Content> files = contents.where((element) => element.type == "file").toList();
     final List<Content> folders = contents.where((element) => element.type == "dir").toList();
     folders.addAll(files);
-    return Expanded(child: ListView.builder(
+    // onde esta tentdo erro
+    return ListView.builder(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 0),
       itemCount: folders.length,
       addAutomaticKeepAlives: false,
@@ -35,22 +36,7 @@ class ListContent extends StatelessWidget {
           title: Text(content.name),
         );
       },
-    ),
     );
-    // return ListView.builder(
-    //   padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 0),
-    //   itemCount: folders.length,
-    //   addAutomaticKeepAlives: false,
-    //   itemBuilder: (context, index) {
-    //     final Content content = folders[index];
-    //     final Widget icon = typeWidget[content.type]!;
-    //     return ListTile(
-    //       onTap: () => callback(context, content),
-    //       leading: icon, //?? const Icon(Icons.info),
-    //       title: Text(content.name),
-    //     );
-    //   },
-    // );
   }
 
   Function? callback(BuildContext context, Content content) {
