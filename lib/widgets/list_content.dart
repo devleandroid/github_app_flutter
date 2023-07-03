@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../model/content.dart';
+import '../screen/repository_content_blob_screen.dart';
 import '../screen/repository_folder_screen.dart';
 
 class ListContent extends StatelessWidget {
@@ -22,7 +23,7 @@ class ListContent extends StatelessWidget {
     final List<Content> files = contents.where((element) => element.type == "file").toList();
     final List<Content> folders = contents.where((element) => element.type == "dir").toList();
     folders.addAll(files);
-    // onde esta tentdo erro
+
     return ListView.builder(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 0),
       itemCount: folders.length,
@@ -39,20 +40,21 @@ class ListContent extends StatelessWidget {
     );
   }
 
-  Function? callback(BuildContext context, Content content) {
+  Object? callback(BuildContext context, Content content) {
     final Map<String, Function> typeCallback = {
       "dir": () {
         Navigator.push(
           context,
-          MaterialPageRoute(
-              builder: (BuildContext context) =>
-                  RepositoryFolderScreen(content: content)),
+          MaterialPageRoute(builder: (context) => RepositoryFolderScreen(content: content)),
         );
       },
-      "file": () {},
+      "file": () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => RepositoryContentBlobScreen(content: content)),
+        );
+      },
     };
     return typeCallback[content.type];
   }
-
-
 }

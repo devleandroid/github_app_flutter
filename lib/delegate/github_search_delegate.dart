@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'package:github_app/model/repository.dart';
 import 'package:github_app/screen/repository_tab_screen.dart';
@@ -59,7 +61,7 @@ class ReposotoryList extends StatefulWidget {
   const ReposotoryList({Key, key, required this.query}) : super(key: key);
 
   @override
-  State<ReposotoryList> createState() => _ReposotoryListState();
+  _ReposotoryListState createState() => _ReposotoryListState();
 }
 
 class _ReposotoryListState extends State<ReposotoryList> {
@@ -102,25 +104,27 @@ class _ReposotoryListState extends State<ReposotoryList> {
 
   @override
   Widget build(BuildContext context) {
-    return AsyncLayoutConstructor<List<Widget>>(
-      future: future,
-      hasDataWidget: (data) {
-        return ListView.separated(
-          itemCount: data.length,
-          addAutomaticKeepAlives: false,
-          itemBuilder: (context, index) {
-            if (data is LoadingList) {
-              future = findAllRepositoryByName().whenComplete(() => setState(() {}));
-            }
-            return data[index]; //Text("${snapshot.data?.items[index].name}");
-          },
-          separatorBuilder: (BuildContext context, int index) =>
-              const Divider(),
-        );
-      },
-      hasErrorWidget: (err) => const Center(child: Text("Deu Erro!")),
-      loadingWidget: () => const Center(child: CircularProgressIndicator()),
-      hasDataEmptyWidget: () => Container(),
+    return Scaffold(
+      body: AsyncLayoutConstructor<List<Widget>>(
+        future: future,
+        hasDataWidget: (data) {
+          return ListView.separated(
+            itemCount: data.length,
+            addAutomaticKeepAlives: false,
+            itemBuilder: (context, index) {
+              if (data is LoadingList) {
+                future =
+                    findAllRepositoryByName().whenComplete(() => setState(() {}));
+              }
+              return data[index]; //Text("${snapshot.data?.items[index].name}");
+            },
+            separatorBuilder: (BuildContext context, int index) => const Divider(),
+          );
+        },
+        hasErrorWidget: (err) => const Center(child: Text("Deu Erro!")),
+        loadingWidget: () => const Center(child: CircularProgressIndicator()),
+        hasDataEmptyWidget: () => Container(),
+      ),
     );
   }
 
@@ -142,12 +146,10 @@ class RepositoryView extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        Navigator.push(
-            context,
+        Navigator.push(context,
             MaterialPageRoute(builder: (BuildContext context) {
-              return RepositoryTabScreen(repository: repository!);
-            })
-        );
+          return RepositoryTabScreen(repository: repository!);
+        }));
       },
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -169,8 +171,7 @@ class RepositoryView extends StatelessWidget {
             ),
           ),
           ListTile(
-            contentPadding:
-                const EdgeInsets.symmetric(horizontal: 16, vertical: 5),
+            contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 5),
             title: Text(repository!.name),
             subtitle: Text(repository?.description ?? "Sem descrição"),
           ),
@@ -197,6 +198,8 @@ class RepositoryView extends StatelessWidget {
 }
 
 class LoadingList extends StatelessWidget {
+  const LoadingList({super.key});
+
   @override
   Widget build(BuildContext context) {
     return const Center(

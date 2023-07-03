@@ -1,7 +1,6 @@
-
+import 'owner.dart';
 
 class User {
-  // String name;
   String login;
   String avatarUrl;
   String url;
@@ -9,16 +8,21 @@ class User {
   String organizationsUrl;
   String reposUrl;
   String type;
-  // String email;
+  String? description;
+  String? language;
+  String? company;
+  Owner? owner;
 
   User.fromJson(Map<String, dynamic> json)
-      : //name = json['name'],
-        login = json['login'],
+      : login = json['login'],
         avatarUrl = json['avatar_url'],
         url = json['url'],
         htmlUrl = json['html_url'],
         organizationsUrl = json['organizations_url'],
         reposUrl = json['repos_url'],
-        type = json['type'];
-        // email = json['emails'];
+        type = json['type'],
+        description = json['description'],
+        language = json['language'],
+        company = json['company'],
+        owner = json['owner'];
 }

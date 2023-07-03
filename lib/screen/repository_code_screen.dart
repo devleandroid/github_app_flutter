@@ -17,17 +17,15 @@ class RepositoryCodeScreen extends StatefulWidget {
   _RepositoryCodeScreenState createState() => _RepositoryCodeScreenState();
 }
 
-class _RepositoryCodeScreenState extends State<RepositoryCodeScreen> {
+class _RepositoryCodeScreenState extends State<RepositoryCodeScreen> with AutomaticKeepAliveClientMixin<RepositoryCodeScreen>{
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return Scaffold(
       body: AsyncLayoutConstructor<List<Content>>(
         future: GitHubService.findAllContentByFullName(widget.repository.fullName),
         hasDataWidget: (data){
-          return NestedScrollView(
-              headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) => [],
-              body: ListContent(contents: data,),
-          );
+          return ListContent(contents: data,);
         },
         hasErrorWidget: (err) => const Center(child: Text("Ocorreu Erro!"),),
         loadingWidget: () => const Center(child: CircularProgressIndicator(),),
@@ -35,4 +33,7 @@ class _RepositoryCodeScreenState extends State<RepositoryCodeScreen> {
       ),
     );
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }

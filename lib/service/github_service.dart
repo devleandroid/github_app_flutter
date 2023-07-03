@@ -37,6 +37,11 @@ abstract class GitHubService {
     return iterable.map((content) => Content.fromJson(content)).toList();
   }
 
+  static Future<Content> findFileByUrl(String url) async {
+    var response = await HttpProvider.get(url);
+    return Content.fromJson(json.decode(response.body));
+  }
+
   static Future<User> findUserByUrl(String url) async {
       var response = await HttpProvider.get(url);
       return User.fromJson(json.decode(response.body));

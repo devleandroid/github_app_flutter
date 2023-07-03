@@ -3,7 +3,7 @@ import 'package:github_app/model/user.dart';
 class Repository {
   String name;
   String fullName;
-  String description;
+  String? description;
   String? language;
   User? owner;
   int stars;

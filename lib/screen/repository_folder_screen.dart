@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:github_app/model/content.dart';
 import 'package:github_app/widgets/async_layout_constructor.dart';

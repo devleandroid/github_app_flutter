@@ -41,16 +41,6 @@ class _UserScreenState extends State<UserScreen> with AutomaticKeepAliveClientMi
                           crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: <Widget>[
                             WidgetCallSafe(
-                              checkIfNull: () => user.reposUrl != null,
-                              success: () {
-                                return Padding(
-                                  padding: const EdgeInsets.symmetric(vertical: 5),
-                                  child: Text(user.reposUrl),
-                                );
-                              },
-                              fail: () => Container(),
-                            ),
-                            WidgetCallSafe(
                               checkIfNull: () => user.htmlUrl != null,
                               success: () {
                                 return Padding(
@@ -61,12 +51,22 @@ class _UserScreenState extends State<UserScreen> with AutomaticKeepAliveClientMi
                               fail: () => Container(),
                             ),
                             WidgetCallSafe(
-                              checkIfNull: () => user.organizationsUrl != null,
+                              checkIfNull: () => user.company != null,
+                              success: () {
+                                return Padding(
+                                  padding: const EdgeInsets.symmetric(vertical: 5),
+                                  child: Text('${user.company}'),
+                                );
+                              },
+                              fail: () => Container(),
+                            ),
+                            WidgetCallSafe(
+                              checkIfNull: () => user.description != null,
                               success: () {
                                 return ListTile(
                                   contentPadding: EdgeInsets.zero,
                                   leading: const Icon(Icons.people),
-                                  title: Text(user.organizationsUrl),
+                                  title: Text(user.description is String ? "" : ""),
                                   subtitle: Text(user.login),
                                 );
                               },
